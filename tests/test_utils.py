@@ -1,8 +1,6 @@
 from unittest.mock import patch
 
-import pytest
-
-from src.utils import read_json, create_objects_from_json
+from src.utils import create_objects_from_json, read_json
 
 
 # Тест 1: Корректный JSON
@@ -41,8 +39,8 @@ def test_file_not_found(tmpdir):
 # Тест 4: Вызывается исключение на другие ошибки
 def test_raise_exception():
     """Тест, когда вызывается исключение на непредвиденные ошибки"""
-    with patch('builtins.print') as mock_print:
-        with patch('builtins.open', side_effect=Exception("Произошла непредвиденная ошибка")):
+    with patch("builtins.print") as mock_print:
+        with patch("builtins.open", side_effect=Exception("Произошла непредвиденная ошибка")):
             result = read_json("nonexistent_file.json")
             assert result is None, "Ожидалось, что результат будет None"
             mock_print.assert_called_with("Произошла непредвиденная ошибка: Произошла непредвиденная ошибка")
@@ -59,15 +57,7 @@ def test_empty_data():
 
 def test_invalid_data():
     """Проверяем неправильный формат данных"""
-    data = [
-        {
-            "name": "Electronics",
-            "products": [
-                {"name": "Laptop", "price": 1000},
-                {"name": "Smartphone"}
-            ]
-        }
-    ]
+    data = [{"name": "Electronics", "products": [{"name": "Laptop", "price": 1000}, {"name": "Smartphone"}]}]
 
     try:
         create_objects_from_json(data)
@@ -77,11 +67,7 @@ def test_invalid_data():
 
 def test_missing_key():
     """Проверяем, если в данных отсутствует ключ 'products'"""
-    data = [
-        {
-            "name": "Electronics"
-        }
-    ]
+    data = [{"name": "Electronics"}]
 
     try:
         create_objects_from_json(data)
@@ -91,13 +77,7 @@ def test_missing_key():
 
 def test_single_category_no_products():
     """Проверяем, что категория была создана, но продуктов нет"""
-    data = [
-        {
-            "name": "Books",
-            "description": "Some description",
-            "products": []
-        }
-    ]
+    data = [{"name": "Books", "description": "Some description", "products": []}]
 
     categories = create_objects_from_json(data)
 
