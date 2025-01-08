@@ -1,11 +1,12 @@
 import json
 import os
+from typing import Any
 
 from src.category import Category
 from src.product import Product
 
 
-def read_json(path: str) -> dict:
+def read_json(path: str) -> Any:
     """Функция для чтения данных из json файла"""
     try:
         full_path = os.path.abspath(path)
@@ -20,7 +21,7 @@ def read_json(path: str) -> dict:
         print(f"Произошла непредвиденная ошибка: {e}")
 
 
-def create_objects_from_json(data):
+def create_objects_from_json(data: list[dict]) -> list:
     """Функция создает объекты из полученных данных"""
     categories = []
     for category in data:
