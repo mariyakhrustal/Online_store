@@ -25,3 +25,11 @@ def category_example2() -> Category:
             Product("bottle", "plastic", 100.0, 3),
         ],
     )
+
+@pytest.fixture
+def product_example2() -> Product:
+    return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 200000.0, 5)
+
+@pytest.fixture
+def product_example3() -> Product:
+    return Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
