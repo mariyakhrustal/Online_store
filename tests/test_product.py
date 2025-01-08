@@ -1,3 +1,5 @@
+from unittest import mock
+
 from pytest import CaptureFixture
 
 from src.product import Product
@@ -33,14 +35,16 @@ def test_new_product_is_exist(product_example: Product, product_example2: Produc
             "description": "256GB, Серый цвет, 200MP камера",
             "price": 180000.0,
             "quantity": 5,
-        }, [product_example, product_example2, product_example3]
+        },
+        [product_example, product_example2, product_example3],
     )
     assert new_product.name == "Samsung Galaxy S23 Ultra"
     assert new_product.description == "256GB, Серый цвет, 200MP камера"
     assert new_product.price == 200000.0
     assert new_product.quantity == 10
 
-def test_new_product_create_from_dict(product_example, product_example3) -> None:
+
+def test_new_product_create_from_dict(product_example: Product, product_example3: Product) -> None:
     """Тест на создание объекта из словаря"""
     new_product = Product.new_product(
         {
@@ -48,9 +52,29 @@ def test_new_product_create_from_dict(product_example, product_example3) -> None
             "description": "256GB, Серый цвет, 200MP камера",
             "price": 180000.0,
             "quantity": 5,
-        }, [product_example, product_example3]
+        },
+        [product_example, product_example3],
     )
     assert new_product.name == "Samsung Galaxy S23 Ultra"
     assert new_product.description == "256GB, Серый цвет, 200MP камера"
     assert new_product.price == 180000.0
     assert new_product.quantity == 5
+
+
+def test_price_setter_price_decrease_agree(product_example3: Product) -> None:
+    """Тест на снижение цены при согласии пользователя и выводы соответствующих сообщений"""
+    with mock.patch("builtins.input", return_value="y"):
+        product_example3.price = 80.0
+    assert product_example3.price == 80.0
+    with mock.patch("builtins.print") as mock_print:
+        product_example3.price = 80.0
+        mock_print.assert_called_once_with("Цена обновлена на 80.0.")
+
+
+def test_price_setter_price_decrease_disagree(product_example3: Product) -> None:
+    """Тест на отказ изменения цены и вывод соответствующих сообщений"""
+    with mock.patch("builtins.input", return_value="n"):
+        with mock.patch("builtins.print") as mock_print:
+            product_example3.price = 80.0
+            assert product_example3.price == 210000.0
+            mock_print.assert_called_once_with("Цена не была изменена.")

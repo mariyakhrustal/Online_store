@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class Product:
     name: str
     description: str
@@ -18,11 +21,20 @@ class Product:
     def price(self, new_price: float) -> None:
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
+            return
+        if new_price < self.__price:
+            confirmation = input(
+                f"Новая цена {new_price} ниже текущей цены {self.__price}. Вы хотите понизить цену? (y/n): "
+            )
+            if confirmation.lower() != "y":
+                print("Цена не была изменена.")
+                return
         self.__price = new_price
+        print(f"Цена обновлена на {new_price}.")
 
     @classmethod
-    def new_product(cls, new_product: dict, products: list) -> "Product":
-        """Взвращает созданный объект класса Product из параметров товара в словаре"""
+    def new_product(cls, new_product: dict, products: list) -> Any:
+        """Возвращает созданный объект класса Product из параметров товара в словаре"""
         name = new_product["name"]
         description = new_product["description"]
         price = new_product["price"]
