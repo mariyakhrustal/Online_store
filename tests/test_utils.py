@@ -4,9 +4,9 @@ from src.utils import create_objects_from_json, read_json
 
 
 # Тест 1: Корректный JSON
-def test_valid_json(tmpdir):
+def test_valid_json(tmpdir) -> None:
     """Тест для корректного чтения JSON"""
-    # Создание временного файла в временной директории
+    # Создание временного файла во временной директории
     temp_file = tmpdir.join("test.json")
     temp_file.write('{"key": "value"}')
 
@@ -17,7 +17,7 @@ def test_valid_json(tmpdir):
 
 
 # Тест 2: Некорректный JSON
-def test_invalid_json(tmpdir):
+def test_invalid_json(tmpdir) -> None:
     """Тест для некорректного JSON (не закрыта фигурная скобка)"""
     # Создание временного файла с некорректным JSON
     temp_file = tmpdir.join("invalid.json")
@@ -28,7 +28,7 @@ def test_invalid_json(tmpdir):
 
 
 # Тест 3: Файл не найден
-def test_file_not_found(tmpdir):
+def test_file_not_found(tmpdir) -> None:
     """Тест для случая, когда файл не найден"""
     # Используем путь, который не существует
     temp_file = tmpdir.join("non_existent_file.json")
@@ -37,7 +37,7 @@ def test_file_not_found(tmpdir):
 
 
 # Тест 4: Вызывается исключение на другие ошибки
-def test_raise_exception():
+def test_raise_exception() -> None:
     """Тест, когда вызывается исключение на непредвиденные ошибки"""
     with patch("builtins.print") as mock_print:
         with patch("builtins.open", side_effect=Exception("Произошла непредвиденная ошибка")):
@@ -46,16 +46,16 @@ def test_raise_exception():
             mock_print.assert_called_with("Произошла непредвиденная ошибка: Произошла непредвиденная ошибка")
 
 
-def test_empty_data():
+def test_empty_data() -> None:
     """Проверяем, что возвращается пустой список"""
-    data = []
+    data: list = []
 
     categories = create_objects_from_json(data)
 
     assert len(categories) == 0
 
 
-def test_invalid_data():
+def test_invalid_data() -> None:
     """Проверяем неправильный формат данных"""
     data = [{"name": "Electronics", "products": [{"name": "Laptop", "price": 1000}, {"name": "Smartphone"}]}]
 
@@ -65,7 +65,7 @@ def test_invalid_data():
         pass  # Ожидаем ошибку TypeError
 
 
-def test_missing_key():
+def test_missing_key() -> None:
     """Проверяем, если в данных отсутствует ключ 'products'"""
     data = [{"name": "Electronics"}]
 
@@ -75,7 +75,7 @@ def test_missing_key():
         pass  # Ожидаем ошибку KeyError
 
 
-def test_single_category_no_products():
+def test_single_category_no_products() -> None:
     """Проверяем, что категория была создана, но продуктов нет"""
     data = [{"name": "Books", "description": "Some description", "products": []}]
 
