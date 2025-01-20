@@ -78,3 +78,13 @@ def test_price_setter_price_decrease_disagree(product_example3: Product) -> None
             product_example3.price = 80.0
             assert product_example3.price == 210000.0
             mock_print.assert_called_once_with("Цена не была изменена.")
+
+
+def test_product_str(product_example2: Product) -> None:
+    """Тест на строковое представление объекта класса Product"""
+    assert str(product_example2) == "Samsung Galaxy S23 Ultra, 200000.0 руб. Остаток: 5 шт."
+
+
+def test_product_add(product_example3: Product, product_example2: Product) -> None:
+    """Тест для проверки сложения экземпляров класса для нахождения полной стоимости всех товаров на складе"""
+    assert product_example2 + product_example3 == 2680000.0

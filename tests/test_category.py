@@ -1,5 +1,8 @@
+import pytest
+
 from src.category import Category
 from src.product import Product
+from src.product_iterator import ProductIterator
 
 
 def test_category_init(category_example1: Category, category_example2: Category) -> None:
@@ -34,3 +37,21 @@ def test_category_add_product(category_example2: Category, product_example: Prod
     assert len(category_example2.products_in_list) == 3
     category_example2.add_product(product_example)
     assert len(category_example2.products_in_list) == 4
+
+
+def test_category_str(category_example3: Category) -> None:
+    """Тест на строковое представление объекта класса Category"""
+    assert str(category_example3) == "Смартфоны, количество продуктов: 27 шт."
+
+
+def test_product_iterator(product_iterator: ProductIterator) -> None:
+    """Тест на перебор товаров одной категории"""
+    iter(product_iterator)
+    assert product_iterator.index == 0
+
+    assert next(product_iterator).name == "Samsung Galaxy S23 Ultra"
+    assert next(product_iterator).name == "Iphone 15"
+    assert next(product_iterator).name == "Xiaomi Redmi Note 11"
+
+    with pytest.raises(StopIteration):
+        next(product_iterator)
