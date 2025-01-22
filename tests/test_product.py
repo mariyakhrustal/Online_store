@@ -1,5 +1,6 @@
 from unittest import mock
 
+import pytest
 from pytest import CaptureFixture
 
 from src.product import Product
@@ -88,3 +89,9 @@ def test_product_str(product_example2: Product) -> None:
 def test_product_add(product_example3: Product, product_example2: Product) -> None:
     """Тест для проверки сложения экземпляров класса для нахождения полной стоимости всех товаров на складе"""
     assert product_example2 + product_example3 == 2680000.0
+
+
+def test_product_add_error(product_example2: Product) -> None:
+    """Тест на ошибку добавления продукта"""
+    with pytest.raises(TypeError):
+        _ = product_example2 + 1
