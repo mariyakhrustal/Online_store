@@ -17,8 +17,13 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: "Product") -> float:
-        total_amount = self.price * self.quantity + other.price * other.quantity
-        return total_amount
+        if isinstance(other, Product) and not isinstance(other, type(self)):
+            raise TypeError("Нельзя складывать объекты разных типов")
+
+        if isinstance(other, Product):
+            total_amount = self.price * self.quantity + other.price * other.quantity
+            return total_amount
+        raise TypeError("Операция сложения поддерживается только для объектов класса Product или его наследников")
 
     @property
     def price(self) -> float:

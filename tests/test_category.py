@@ -3,6 +3,7 @@ import pytest
 from src.category import Category
 from src.product import Product
 from src.product_iterator import ProductIterator
+from src.smartphone import Smartphone
 
 
 def test_category_init(category_example1: Category, category_example2: Category) -> None:
@@ -55,3 +56,15 @@ def test_product_iterator(product_iterator: ProductIterator) -> None:
 
     with pytest.raises(StopIteration):
         next(product_iterator)
+
+
+def test_category_add_product_error(category_example2: Category) -> None:
+    """Тест на ошибку добавления нового продукта"""
+    with pytest.raises(TypeError):
+        category_example2.add_product("Not a product")
+
+
+def test_category_add_product_smartphone(category_example2: Category, product_smartphone1: Smartphone) -> None:
+    """Тест на добавление нового продукта"""
+    category_example2.add_product(product_smartphone1)
+    assert category_example2.products_in_list[-1].name == "Iphone 15"
