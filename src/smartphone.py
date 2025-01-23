@@ -18,9 +18,3 @@ class Smartphone(Product):
         self.model = model
         self.memory = memory
         self.color = color
-
-    def __add__(self, other) -> float:
-        if type(other) is Smartphone:
-            total_amount = self.price * self.quantity + other.price * other.quantity
-            return total_amount
-        raise TypeError

@@ -3,7 +3,9 @@ from unittest import mock
 import pytest
 from pytest import CaptureFixture
 
+from src.lawngrass import LawnGrass
 from src.product import Product
+from src.smartphone import Smartphone
 
 
 def test_product_init(product_example: Product) -> None:
@@ -95,3 +97,9 @@ def test_product_add_error(product_example2: Product) -> None:
     """Тест на ошибку добавления продукта"""
     with pytest.raises(TypeError):
         _ = product_example2 + 1
+
+
+def test_product_add_error_child_classes(product_grass2: LawnGrass, product_smartphone2: Smartphone) -> None:
+    """Тест на ошибку добавления продукта"""
+    with pytest.raises(TypeError):
+        _ = product_grass2 + product_smartphone2
