@@ -1,7 +1,8 @@
+from src.base_item import BaseItem
 from src.product import Product
 
 
-class Category:
+class Category(BaseItem):
     name: str
     description: str
     products: list
