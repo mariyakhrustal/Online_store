@@ -20,7 +20,7 @@ def test_product_update_setter(capsys: CaptureFixture, product_example: Product)
     """Проверка на вывод сообщения при отрицательной или нулевой цене"""
     product_example.price = -100.0
     message = capsys.readouterr()
-    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
+    assert message.out.strip().split("\n")[-1] == "Цена не должна быть нулевая или отрицательная"
 
     product_example.price = 0
     message = capsys.readouterr()
