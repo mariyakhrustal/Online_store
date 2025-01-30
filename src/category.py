@@ -1,4 +1,7 @@
+from typing import Any
+
 from src.base_item import BaseItem
+from src.exceptions import ZeroQuantityError
 from src.product import Product
 
 
@@ -22,8 +25,19 @@ class Category(BaseItem):
 
     def add_product(self, product: Product) -> None:
         if isinstance(product, Product):
-            self.__products.append(product)
-            Category.product_count += 1
+            try:
+                if product.quantity == 0:
+                    raise ZeroQuantityError(
+                        f"Товар '{product.name}' не может быть добавлен, так как количество равно 0."
+                    )
+            except ZeroQuantityError as e:
+                print(str(e))
+            else:
+                self.__products.append(product)
+                Category.product_count += 1
+                print(f"Товар '{product.name}' успешно добавлен в категорию.")
+            finally:
+                print("Обработка добавления товара завершена.")
         else:
             raise TypeError
 
@@ -38,7 +52,7 @@ class Category(BaseItem):
     def products_in_list(self) -> list:
         return self.__products
 
-    def middle_price(self):
+    def middle_price(self) -> Any:
         try:
             avg_result = sum([product.price for product in self.__products]) / len(self.__products)
             return round(avg_result, 2)
