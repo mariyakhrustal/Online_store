@@ -9,9 +9,7 @@ class Order(BaseItem):
             raise ValueError(f"Ошибка: На складе только {product.quantity} шт. товара '{product.name}'.")
         try:
             if product.quantity == 0:
-                raise ZeroQuantityError(
-                    f"Товар '{product.name}' не может быть добавлен в заказ, так как количество равно 0."
-                )
+                raise ZeroQuantityError(f"Товар '{product.name}' не может быть добавлен в заказ, количество: 0.")
         except ZeroQuantityError as e:
             print(str(e))
         else:

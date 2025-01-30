@@ -27,9 +27,7 @@ class Category(BaseItem):
         if isinstance(product, Product):
             try:
                 if product.quantity == 0:
-                    raise ZeroQuantityError(
-                        f"Товар '{product.name}' не может быть добавлен, так как количество равно 0."
-                    )
+                    raise ZeroQuantityError(f"Товар '{product.name}' не может быть добавлен, количество равно 0.")
             except ZeroQuantityError as e:
                 print(str(e))
             else:
