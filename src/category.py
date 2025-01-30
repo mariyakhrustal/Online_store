@@ -37,3 +37,10 @@ class Category(BaseItem):
     @property
     def products_in_list(self) -> list:
         return self.__products
+
+    def middle_price(self):
+        try:
+            avg_result = sum([product.price for product in self.__products]) / len(self.__products)
+            return round(avg_result, 2)
+        except ZeroDivisionError:
+            return 0
