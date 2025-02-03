@@ -1,4 +1,5 @@
 import pytest
+from pytest import CaptureFixture
 
 from src.category import Category
 from src.product import Product
@@ -68,3 +69,27 @@ def test_category_add_product_smartphone(category_example2: Category, product_sm
     """Тест на добавление нового продукта"""
     category_example2.add_product(product_smartphone1)
     assert category_example2.products_in_list[-1].name == "Iphone 15"
+
+
+def test_middle_price(category_example3: Category, category_example1: Category) -> None:
+    """Тест на вычисление средней цены товаров"""
+    assert category_example3.middle_price() == 140333.33
+    assert category_example1.middle_price() == 0
+
+
+def test_category_custom_exception(capsys: CaptureFixture, category_example3: Category) -> None:
+    """Тест на работу кастомного исключения в категории"""
+    assert len(category_example3.products_in_list) == 3
+
+    product_add = Product("Iphone 12", "512GB, Gray space", 210000.0, 1)
+    product_add.quantity = 0
+    category_example3.add_product(product_add)
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Товар 'Iphone 12' не может быть добавлен, количество равно 0."
+    assert message.out.strip().split("\n")[-1] == "Обработка добавления товара завершена."
+
+    product_add = Product("Iphone 12", "512GB, Gray space", 210000.0, 1)
+    category_example3.add_product(product_add)
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Товар 'Iphone 12' успешно добавлен в категорию."
+    assert message.out.strip().split("\n")[-1] == "Обработка добавления товара завершена."

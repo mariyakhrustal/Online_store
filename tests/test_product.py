@@ -16,6 +16,12 @@ def test_product_init(product_example: Product) -> None:
     assert product_example.quantity == 2
 
 
+def test_product_quantity_init() -> None:
+    """Тест на выброс исключения при попытке добавления продукта с нулевым количеством"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Iphone 15", "512GB, Gray space", 210000.0, 0)
+
+
 def test_product_update_setter(capsys: CaptureFixture, product_example: Product) -> None:
     """Проверка на вывод сообщения при отрицательной или нулевой цене"""
     product_example.price = -100.0
